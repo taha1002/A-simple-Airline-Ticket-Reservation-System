@@ -1,0 +1,299 @@
+package airline_ticke;
+
+import java.awt.EventQueue;
+
+import javax.swing.JInternalFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
+import java.awt.Font;
+import javax.swing.JTextField;
+import javax.lang.model.util.AbstractAnnotationValueVisitor14;
+import javax.swing.JButton;
+import javax.swing.JTextArea;
+import javax.swing.JPanel;
+import java.awt.Color;
+
+import com.mysql.cj.xdevapi.PreparableStatement;
+import com.toedter.calendar.JDateChooser;
+import javax.swing.JRadioButton;
+import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.Date;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.awt.event.ActionEvent;
+
+public class searchCutomore extends JInternalFrame {
+	private JTextField textField;
+	private JTextField textField_1;
+	private JTextField textField_2;
+	private JTextField textField_3;
+	private JTextField textField_4;
+	private JTextField textField_5;
+	private JTextField textField_6;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					searchCutomore frame = new searchCutomore();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the frame.
+	 */
+	public searchCutomore() {
+		setBounds(0, 0, 1050, 567);
+		getContentPane().setLayout(null);
+		
+		JLabel lblNewLabel = new JLabel("Customore ID");
+		lblNewLabel.setFont(new Font("Nirmala UI", Font.BOLD, 24));
+		lblNewLabel.setBounds(31, 43, 171, 32);
+		getContentPane().add(lblNewLabel);
+		JRadioButton r1 = new JRadioButton("Male");
+		r1.setFont(new Font("Nirmala UI", Font.BOLD, 13));
+		r1.setBounds(581, 270, 69, 23);
+		getContentPane().add(r1);
+		 
+		
+		JRadioButton r2 = new JRadioButton("Female");
+		r2.setFont(new Font("Nirmala UI", Font.BOLD, 13));
+		r2.setBounds(652, 270, 81, 23);
+		getContentPane().add(r2);
+		
+		textField = new JTextField();
+		textField.setBounds(213, 43, 141, 32);
+		getContentPane().add(textField);
+		textField.setColumns(10);
+		JDateChooser dateChooser = new JDateChooser();
+		dateChooser.setBounds(586, 203, 117, 20);
+		getContentPane().add(dateChooser);
+		
+		JButton btnNewButton = new JButton("Find");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String id = textField.getText();
+				Connection con;
+				PreparedStatement pst;
+				
+				try {
+					Class.forName("com.mysql.cj.jdbc.Driver");
+					con = DriverManager.getConnection("jdbc:mysql://localhost:3306/airline_ticket","root","asaad2001=");
+					pst = con.prepareStatement("select * from customore where idcustomore=?");
+					pst.setString(1, id);
+					ResultSet rs = pst.executeQuery();
+					if(rs.next()== false) {
+						JOptionPane.showMessageDialog(null,"Record not finding");
+					}else {
+						String fname = rs.getString("first name");
+						String lname = rs.getString("last name");
+						String nicno = rs.getString("nic");
+						String pasid = rs.getString("pasport ID");
+						String adres = rs.getString("Adresse");
+						String date = rs.getString("dob");
+						java.util.Date date1 = new SimpleDateFormat("yyyy-MM-dd").parse(date);
+						String gender = rs.getString("gender");
+						if(gender.equals("female")) {
+							r1.setSelected(false);
+							r2.setSelected(true);
+						}else {
+							r1.setSelected(false);
+							r2.setSelected(true);
+							
+							
+						}
+						String cont = rs.getString("contact");
+						textField_1.setText(fname.trim());
+						textField_2.setText(lname.trim());
+						textField_3.setText(nicno.trim());
+						textField_4.setText(pasid.trim());
+						textField_5.setText(cont.trim());
+						textField_6.setText(adres.trim());
+						dateChooser.setDate(date1);
+						
+						 
+
+
+						
+						
+						
+					}
+					
+				} catch (SQLException | ClassNotFoundException | ParseException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
+				
+				
+			}
+		});
+		btnNewButton.setFont(new Font("Nirmala UI", Font.BOLD, 15));
+		btnNewButton.setBounds(377, 43, 89, 32);
+		getContentPane().add(btnNewButton);
+		
+		JLabel frstname = new JLabel("First Name");
+		frstname.setFont(new Font("Nirmala UI", Font.BOLD, 14));
+		frstname.setBounds(57, 170, 81, 14);
+		getContentPane().add(frstname);
+		
+		JLabel lblLastName = new JLabel("Last name");
+		lblLastName.setFont(new Font("Nirmala UI", Font.BOLD, 14));
+		lblLastName.setBounds(57, 225, 81, 14);
+		getContentPane().add(lblLastName);
+		
+		JLabel lblNicNo = new JLabel("Nic No");
+		lblNicNo.setFont(new Font("Nirmala UI", Font.BOLD, 14));
+		lblNicNo.setBounds(57, 272, 81, 14);
+		getContentPane().add(lblNicNo);
+		
+		JLabel lblPasportId = new JLabel("Pasport ID");
+		lblPasportId.setFont(new Font("Nirmala UI", Font.BOLD, 14));
+		lblPasportId.setBounds(57, 320, 81, 14);
+		getContentPane().add(lblPasportId);
+		
+		JLabel lblAdresse = new JLabel("Adresse");
+		lblAdresse.setFont(new Font("Nirmala UI", Font.BOLD, 14));
+		lblAdresse.setBounds(57, 367, 81, 14);
+		getContentPane().add(lblAdresse);
+		
+		textField_1 = new JTextField();
+		textField_1.setColumns(10);
+		textField_1.setBounds(174, 169, 133, 22);
+		getContentPane().add(textField_1);
+		
+		textField_2 = new JTextField();
+		textField_2.setColumns(10);
+		textField_2.setBounds(174, 224, 133, 22);
+		getContentPane().add(textField_2);
+		
+		textField_3 = new JTextField();
+		textField_3.setColumns(10);
+		textField_3.setBounds(174, 271, 133, 22);
+		getContentPane().add(textField_3);
+		
+		textField_4 = new JTextField();
+		textField_4.setColumns(10);
+		textField_4.setBounds(174, 319, 133, 22);
+		getContentPane().add(textField_4);
+		
+		JLabel lblDateOfBirth = new JLabel("Date of birth");
+		lblDateOfBirth.setFont(new Font("Nirmala UI", Font.BOLD, 14));
+		lblDateOfBirth.setBounds(465, 203, 106, 14);
+		getContentPane().add(lblDateOfBirth);
+		
+		JLabel lblGender = new JLabel("Gender");
+		lblGender.setFont(new Font("Nirmala UI", Font.BOLD, 14));
+		lblGender.setBounds(465, 272, 106, 14);
+		getContentPane().add(lblGender);
+		
+		JLabel lblContact = new JLabel("Contact");
+		lblContact.setFont(new Font("Nirmala UI", Font.BOLD, 14));
+		lblContact.setBounds(465, 367, 106, 14);
+		getContentPane().add(lblContact);
+		
+		
+		
+		
+		
+		textField_5 = new JTextField();
+		textField_5.setColumns(10);
+		textField_5.setBounds(581, 366, 133, 20);
+		getContentPane().add(textField_5);
+		
+		JPanel panel_1 = new JPanel();
+		panel_1.setBackground(new Color(64, 128, 128));
+		panel_1.setBounds(409, 133, 341, 340);
+		getContentPane().add(panel_1);
+		
+		JButton btnNewButton_1_1 = new JButton("CANCEL");
+		btnNewButton_1_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				searchCutomore.this.hide();
+			}
+		});
+		btnNewButton_1_1.setFont(new Font("Nirmala UI", Font.BOLD, 13));
+		btnNewButton_1_1.setBounds(397, 484, 106, 55);
+		getContentPane().add(btnNewButton_1_1);
+		
+		JButton btnNewButton_1_1_1 = new JButton("UPDATE");
+		btnNewButton_1_1_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String id = textField.getText();
+				String firstname = textField_1.getText();
+				String lastname =textField_2.getText();
+				String nicno = textField_3.getText();
+				String pssid = textField_4.getText();
+				String adresse = textField_6.getText();
+				DateFormat da = new SimpleDateFormat("yyyy-MM-dd");
+				String date = da.format(dateChooser.getDate());
+				String Gender = null;
+				if(r1.isSelected()) {
+					Gender ="Male";
+				}else {
+					Gender="famele";
+				}
+				String contact = textField_5.getText();
+
+				Connection con;
+				PreparedStatement pst;
+				try {
+					Class.forName("com.mysql.cj.jdbc.Driver");
+					con = DriverManager.getConnection("jdbc:mysql://localhost:3306/airline_ticket","root","asaad2001=");
+					pst =  con.prepareStatement("update customore set first name=?,last name=?,nic=?,pasport ID=?,Adresse=?,dob=?,gender=?,contact=? where id =?");
+					pst.setString(1, firstname);
+					pst.setString(2, lastname);
+					pst.setString(3, nicno);
+					pst.setString(4, pssid);
+					pst.setString(5, adresse);
+					pst.setString(6, date);
+					pst.setString(7, Gender);
+					pst.setString(8, contact);
+					pst.setString(9, id);
+					JOptionPane.showMessageDialog(null,"regesataion updating");
+					pst.executeUpdate();
+					
+					
+					
+				} catch (SQLException | ClassNotFoundException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
+				
+				
+				
+				
+			}
+		});
+		btnNewButton_1_1_1.setFont(new Font("Nirmala UI", Font.BOLD, 13));
+		btnNewButton_1_1_1.setBounds(239, 484, 106, 55);
+		getContentPane().add(btnNewButton_1_1_1);
+		
+		textField_6 = new JTextField();
+		textField_6.setBounds(174, 366, 133, 42);
+		getContentPane().add(textField_6);
+		textField_6.setColumns(10);
+		
+		JPanel panel = new JPanel();
+		panel.setBackground(new Color(64, 128, 128));
+		panel.setBounds(44, 133, 286, 340);
+		getContentPane().add(panel);
+
+	}
+}
