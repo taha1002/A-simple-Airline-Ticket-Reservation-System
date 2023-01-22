@@ -1,0 +1,225 @@
+package airline_ticke;
+
+import java.awt.EventQueue;
+
+import javax.swing.JInternalFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
+import java.awt.Font;
+import javax.swing.JTextField;
+
+import com.mysql.cj.xdevapi.PreparableStatement;
+import com.toedter.calendar.JDateChooser;
+import javax.swing.JButton;
+import javax.swing.JPanel;
+import java.awt.Color;
+import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.awt.event.ActionEvent;
+import javax.swing.JComboBox;
+import javax.swing.ComboBoxEditor;
+import javax.swing.ComboBoxModel;
+import javax.swing.DefaultComboBoxModel;
+
+public class addflight extends JInternalFrame {
+	private JTextField textField;
+	private JTextField textField_3;
+	private JTextField textField_4;
+	private JTextField textField_5;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					addflight frame = new addflight();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the frame.
+	 */
+	public addflight() {
+		setBounds(0, 0, 850, 500);
+		getContentPane().setLayout(null);
+		
+		JLabel lblNewLabel = new JLabel("flight ID");
+		lblNewLabel.setFont(new Font("Nirmala UI", Font.BOLD, 15));
+		lblNewLabel.setBounds(75, 85, 67, 21);
+		getContentPane().add(lblNewLabel);
+		
+		JLabel txtid = new JLabel("flight ID");
+		txtid.setFont(new Font("Nirmala UI", Font.BOLD, 15));
+		txtid.setBounds(169, 85, 67, 21);
+		getContentPane().add(txtid);
+		Connection con;
+		PreparableStatement pst;
+	try {
+		
+		Class.forName("com.mysql.cj.jdbc.Driver");
+		con = DriverManager.getConnection("jdbc:mysql://localhost:3306/airline_ticket","root","asaad2001=");
+		java.sql.Statement s = con.createStatement();
+		ResultSet rs =  s.executeQuery("select MAX(idflight) from flight");
+		rs.next();
+		rs.getString("MAX(idflight)");
+if(rs.getString("MAX(idflight)")== null) {
+			
+			txtid.setText("FT001");
+		}else {
+			long id = Long.parseLong(rs.getString("MAX(idflight)").substring(2,rs.getString("MAX(idflight)").length()));
+			id++;
+			txtid.setText("FT"+ String.format("%03d",id));
+		}
+
+} catch (ClassNotFoundException | SQLException e) {
+	// TODO Auto-generated catch block
+	e.printStackTrace();
+}
+		
+		JLabel lblFlightName = new JLabel("flight name");
+		lblFlightName.setFont(new Font("Nirmala UI", Font.BOLD, 15));
+		lblFlightName.setBounds(75, 141, 91, 21);
+		getContentPane().add(lblFlightName);
+		
+		JLabel lblSource = new JLabel("Source");
+		lblSource.setFont(new Font("Nirmala UI", Font.BOLD, 15));
+		lblSource.setBounds(75, 194, 67, 21);
+		getContentPane().add(lblSource);
+		
+		JLabel lblDeparteur = new JLabel("Departeur");
+		lblDeparteur.setFont(new Font("Nirmala UI", Font.BOLD, 15));
+		lblDeparteur.setBounds(75, 248, 91, 21);
+		getContentPane().add(lblDeparteur);
+		
+		textField = new JTextField();
+		textField.setBounds(176, 144, 119, 20);
+		getContentPane().add(textField);
+		textField.setColumns(10);
+		
+		JLabel lblTime = new JLabel("Date");
+		lblTime.setFont(new Font("Nirmala UI", Font.BOLD, 15));
+		lblTime.setBounds(423, 91, 67, 21);
+		getContentPane().add(lblTime);
+		
+		JDateChooser dateChooser = new JDateChooser();
+		dateChooser.setBounds(523, 91, 117, 20);
+		getContentPane().add(dateChooser);
+		
+		JLabel lblDepTime = new JLabel("Dep time");
+		lblDepTime.setFont(new Font("Nirmala UI", Font.BOLD, 15));
+		lblDepTime.setBounds(423, 147, 67, 21);
+		getContentPane().add(lblDepTime);
+		
+		JLabel lblArrTime = new JLabel("Arr time");
+		lblArrTime.setFont(new Font("Nirmala UI", Font.BOLD, 15));
+		lblArrTime.setBounds(423, 200, 67, 21);
+		getContentPane().add(lblArrTime);
+		
+		JLabel lblFlightCharge = new JLabel("Flight charge");
+		lblFlightCharge.setFont(new Font("Nirmala UI", Font.BOLD, 15));
+		lblFlightCharge.setBounds(423, 254, 101, 21);
+		getContentPane().add(lblFlightCharge);
+		
+		textField_3 = new JTextField();
+		textField_3.setColumns(10);
+		textField_3.setBounds(523, 150, 119, 20);
+		getContentPane().add(textField_3);
+		
+		textField_4 = new JTextField();
+		textField_4.setColumns(10);
+		textField_4.setBounds(523, 203, 119, 20);
+		getContentPane().add(textField_4);
+		JComboBox comboBox = new JComboBox();
+		comboBox.setModel(new DefaultComboBoxModel(new String[] {"Algeria", "France", "USA", "UK", "Spain", "Qatar", "USA", "Italy", "Germany"}));
+		comboBox.setBounds(176, 196, 119, 22);
+		getContentPane().add(comboBox);
+		JComboBox comboBox_1 = new JComboBox();
+		comboBox_1.setModel(new DefaultComboBoxModel(new String[] {"Algeria", "France", "USA", "UK", "Spain", "Qatar", "USA", "Italy", "Germany"}));
+		comboBox_1.setBounds(176, 250, 119, 22);
+		getContentPane().add(comboBox_1);
+		
+		textField_5 = new JTextField();
+		textField_5.setColumns(10);
+		textField_5.setBounds(534, 251, 119, 20);
+		getContentPane().add(textField_5);
+		
+		JButton btnNewButton = new JButton("ADD");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			
+				
+				String id = txtid.getText();
+				String flightname =textField.getText();
+				String source=comboBox.getSelectedItem().toString().trim();
+				String departeur = comboBox_1.getSelectedItem().toString().trim();
+				String deptime = textField_3.getText();
+				DateFormat da = new SimpleDateFormat("yyyy-MM-dd");
+				String date = da.format(dateChooser.getDate());
+				String arrtime = textField_4.getText();
+				String flightcharge = textField_5.getText();
+
+				Connection con;
+				PreparedStatement pst;
+		try {
+					Class.forName("com.mysql.cj.jdbc.Driver");
+					con = DriverManager.getConnection("jdbc:mysql://localhost:3306/airline_ticket","root","asaad2001=");
+					pst =  con.prepareStatement("insert into flight values(?,?,?,?,?,?,?,?)");
+					pst.setString(1, id);
+					pst.setString(2, flightname);
+					pst.setString(3, source);
+					pst.setString(4, departeur);
+					pst.setString(5, deptime);
+					pst.setString(6, arrtime);
+					pst.setString(7, date);
+					pst.setString(8, flightcharge);
+					pst.executeUpdate();
+					JOptionPane.showMessageDialog(null,"flight created");
+					
+				} catch (SQLException | ClassNotFoundException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
+			
+		}});
+		
+		btnNewButton.setFont(new Font("Nirmala UI", Font.BOLD, 15));
+		btnNewButton.setBounds(448, 360, 89, 41);
+		getContentPane().add(btnNewButton);
+		
+		JButton btnCancel = new JButton("CANCEL");
+		btnCancel.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				addflight.this.hide();
+			}
+		});
+		btnCancel.setFont(new Font("Nirmala UI", Font.BOLD, 15));
+		btnCancel.setBounds(618, 360, 89, 41);
+		getContentPane().add(btnCancel);
+		
+		
+		
+		
+		
+	
+		JPanel panel = new JPanel();
+		panel.setBackground(new Color(64, 128, 128));
+		panel.setBounds(21, 43, 779, 398);
+		getContentPane().add(panel);
+
+	}
+}
