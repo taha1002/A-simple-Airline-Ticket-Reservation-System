@@ -1,0 +1,437 @@
+package airline_ticke;
+
+import java.awt.EventQueue;
+
+import javax.swing.JInternalFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
+import java.awt.Font;
+import javax.swing.JComboBox;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
+
+import com.mysql.cj.jdbc.result.ResultSetMetaData;
+import com.mysql.cj.xdevapi.PreparableStatement;
+
+import javax.swing.JTextField;
+import javax.swing.JPanel;
+import java.awt.Color;
+import java.awt.Dimension;
+
+import javax.swing.JSpinner;
+import javax.swing.JPasswordField;
+import javax.swing.JButton;
+import javax.swing.DefaultComboBoxModel;
+import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Vector;
+import java.awt.event.ActionEvent;
+import javax.swing.JScrollPane;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import javax.swing.event.ChangeListener;
+import javax.swing.event.ChangeEvent;
+import com.toedter.calendar.JDateChooser;
+
+public class ticket extends JInternalFrame {
+	private JTable table;
+	private JTextField textField;
+	private JTextField textField_1;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					ticket frame = new ticket();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the frame.
+	 */
+	public ticket() {
+		setBounds(0, 0, 1250, 1000);
+		getContentPane().setLayout(null);
+		
+		JLabel lblNewLabel = new JLabel("Select Country");
+		lblNewLabel.setFont(new Font("Nirmala UI", Font.BOLD, 20));
+		lblNewLabel.setBounds(36, 31, 165, 27);
+		getContentPane().add(lblNewLabel);
+		
+		JLabel lblNewLabel_1 = new JLabel("Source");
+		lblNewLabel_1.setFont(new Font("Nirmala UI", Font.BOLD, 14));
+		lblNewLabel_1.setBounds(46, 69, 49, 14);
+		getContentPane().add(lblNewLabel_1);
+		
+		JLabel lblNewLabel_1_1 = new JLabel("Departeur");
+		lblNewLabel_1_1.setFont(new Font("Nirmala UI", Font.BOLD, 14));
+		lblNewLabel_1_1.setBounds(191, 69, 77, 14);
+		getContentPane().add(lblNewLabel_1_1);
+		
+		JComboBox comboBox = new JComboBox();
+		comboBox.setModel(new DefaultComboBoxModel(new String[] {"Algeria", "France", "USA", "UK", "Spain", "Qatar", "USA", "Italy", "Germany"}));
+		comboBox.setBounds(36, 109, 127, 22);
+		getContentPane().add(comboBox);
+		
+		JComboBox comboBox_1 = new JComboBox();
+		comboBox_1.setModel(new DefaultComboBoxModel(new String[] {"Algeria", "France", "USA", "UK", "Spain", "Qatar", "USA", "Italy", "Germany"}));
+		comboBox_1.setBounds(185, 109, 127, 22);
+		getContentPane().add(comboBox_1);
+		JLabel label4 = new JLabel("");
+		label4.setForeground(new Color(0, 0, 255));
+		label4.setFont(new Font("Nirmala UI", Font.BOLD, 15));
+		label4.setBounds(851, 344, 102, 27);
+		getContentPane().add(label4);
+		
+		JLabel label5 = new JLabel("");
+		label5.setForeground(new Color(0, 0, 255));
+		label5.setFont(new Font("Nirmala UI", Font.BOLD, 15));
+		label5.setBounds(851, 382, 102, 27);
+		getContentPane().add(label5);
+		
+		JLabel label6 = new JLabel("");
+		label6.setForeground(new Color(0, 0, 255));
+		label6.setFont(new Font("Nirmala UI", Font.BOLD, 15));
+		label6.setBounds(851, 430, 102, 27);
+		getContentPane().add(label6);
+		
+		table = new JTable();
+		table.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				DefaultTableModel fd = (DefaultTableModel)table.getModel();
+				int selectindex = table.getSelectedRow();
+				label4.setText(fd.getValueAt(selectindex, 0).toString());
+				label5.setText(fd.getValueAt(selectindex, 1).toString());
+				label6.setText(fd.getValueAt(selectindex, 5).toString());
+				textField_1.setText(fd.getValueAt(selectindex, 7).toString());
+				
+			}
+		});
+		table.setModel(new DefaultTableModel(
+			new Object[][] {
+				{"flight No", "flight name", "Source", "Departeure", "Dep Time", "arr time", "date", "flight charge"},
+			},
+			new String[] {
+				"New column", "New column", "New column", "New column", "New column", "New column", "New column", "New column"
+			}
+		));
+		table.getColumnModel().getColumn(0).setPreferredWidth(93);
+		table.getColumnModel().getColumn(1).setPreferredWidth(93);
+		table.getColumnModel().getColumn(2).setPreferredWidth(93);
+		table.getColumnModel().getColumn(3).setPreferredWidth(93);
+		table.getColumnModel().getColumn(4).setPreferredWidth(93);
+		table.getColumnModel().getColumn(5).setPreferredWidth(93);
+		table.getColumnModel().getColumn(6).setPreferredWidth(93);
+		table.setRowHeight(30);
+		table.setBounds(10, 195, 646,251);
+		getContentPane().add(table);
+		
+		JLabel lblNewLabel_2 = new JLabel("Ticket No");
+		lblNewLabel_2.setFont(new Font("Tahoma", Font.BOLD, 13));
+		lblNewLabel_2.setBounds(438, 41, 63, 14);
+		getContentPane().add(lblNewLabel_2);
+		
+		JLabel lblNewLabel_2_1 = new JLabel("Ticket No");
+		lblNewLabel_2_1.setFont(new Font("Nirmala UI", Font.BOLD, 24));
+		lblNewLabel_2_1.setBounds(415, 95, 112, 38);
+		getContentPane().add(lblNewLabel_2_1);
+		Connection con;
+		PreparableStatement pst;
+	try {
+		
+		Class.forName("com.mysql.cj.jdbc.Driver");
+		con = DriverManager.getConnection("jdbc:mysql://localhost:3306/airline_ticket","root","asaad2001=");
+		java.sql.Statement s = con.createStatement();
+		ResultSet rs =  s.executeQuery("select MAX(id) from ticket");
+		rs.next();
+		rs.getString("MAX(id)");
+if(rs.getString("MAX(id)")== null) {
+			
+	lblNewLabel_2_1.setText("TC001");
+		}else {
+			long id = Long.parseLong(rs.getString("MAX(id)").substring(2,rs.getString("MAX(id)").length()));
+			id++;
+			lblNewLabel_2_1.setText("TC"+ String.format("%03d",id));
+		}
+
+} catch (ClassNotFoundException | SQLException e) {
+	// TODO Auto-generated catch block
+	e.printStackTrace();
+}
+		
+		JLabel lblNewLabel_1_2 = new JLabel("Customore ID");
+		lblNewLabel_1_2.setFont(new Font("Nirmala UI", Font.BOLD, 14));
+		lblNewLabel_1_2.setBounds(704, 49, 112, 16);
+		getContentPane().add(lblNewLabel_1_2);
+		
+		JLabel lblNewLabel_1_3 = new JLabel("First name");
+		lblNewLabel_1_3.setFont(new Font("Nirmala UI", Font.BOLD, 14));
+		lblNewLabel_1_3.setBounds(704, 127, 100, 14);
+		getContentPane().add(lblNewLabel_1_3);
+		
+		JLabel lblNewLabel_1_4 = new JLabel("Last name");
+		lblNewLabel_1_4.setFont(new Font("Nirmala UI", Font.BOLD, 14));
+		lblNewLabel_1_4.setBounds(704, 184, 77, 14);
+		getContentPane().add(lblNewLabel_1_4);
+		
+		JLabel lblNewLabel_1_5 = new JLabel("Pasport ID");
+		lblNewLabel_1_5.setFont(new Font("Nirmala UI", Font.BOLD, 14));
+		lblNewLabel_1_5.setBounds(704, 239, 77, 14);
+		getContentPane().add(lblNewLabel_1_5);
+		
+		textField = new JTextField();
+		textField.setBounds(828, 49, 135, 20);
+		getContentPane().add(textField);
+		textField.setColumns(10);
+		
+		JLabel label1 = new JLabel("");
+		label1.setForeground(new Color(0, 0, 255));
+		label1.setFont(new Font("Nirmala UI", Font.BOLD, 24));
+		label1.setBounds(851, 111, 112, 38);
+		getContentPane().add(label1);
+		
+		JLabel label2 = new JLabel("");
+		label2.setForeground(new Color(0, 0, 255));
+		label2.setFont(new Font("Nirmala UI", Font.BOLD, 24));
+		label2.setBounds(851, 161, 112, 38);
+		getContentPane().add(label2);
+		
+		JLabel label3 = new JLabel("");
+		label3.setForeground(new Color(0, 0, 255));
+		label3.setFont(new Font("Nirmala UI", Font.BOLD, 24));
+		label3.setBounds(851, 223, 112, 38);
+		getContentPane().add(label3);
+		
+		JLabel lblNewLabel_1_4_1 = new JLabel("flight no");
+		lblNewLabel_1_4_1.setFont(new Font("Nirmala UI", Font.BOLD, 14));
+		lblNewLabel_1_4_1.setBounds(704, 351, 77, 14);
+		getContentPane().add(lblNewLabel_1_4_1);
+		
+		JLabel lblNewLabel_1_4_2 = new JLabel("flight name");
+		lblNewLabel_1_4_2.setFont(new Font("Nirmala UI", Font.BOLD, 14));
+		lblNewLabel_1_4_2.setBounds(704, 397, 93, 14);
+		getContentPane().add(lblNewLabel_1_4_2);
+		
+		JLabel lblNewLabel_1_4_3 = new JLabel("dep time");
+		lblNewLabel_1_4_3.setFont(new Font("Nirmala UI", Font.BOLD, 14));
+		lblNewLabel_1_4_3.setBounds(704, 443, 77, 14);
+		getContentPane().add(lblNewLabel_1_4_3);
+		
+		JLabel lblNewLabel_1_4_4 = new JLabel("class");
+		lblNewLabel_1_4_4.setFont(new Font("Nirmala UI", Font.BOLD, 14));
+		lblNewLabel_1_4_4.setBounds(704, 490, 77, 14);
+		getContentPane().add(lblNewLabel_1_4_4);
+		
+		JLabel lblNewLabel_1_4_5 = new JLabel("price");
+		lblNewLabel_1_4_5.setFont(new Font("Nirmala UI", Font.BOLD, 14));
+		lblNewLabel_1_4_5.setBounds(704, 540, 77, 27);
+		getContentPane().add(lblNewLabel_1_4_5);
+		
+		JLabel lblNewLabel_1_4_6 = new JLabel("seats");
+		lblNewLabel_1_4_6.setFont(new Font("Nirmala UI", Font.BOLD, 14));
+		lblNewLabel_1_4_6.setBounds(704, 593, 77, 14);
+		getContentPane().add(lblNewLabel_1_4_6);
+		
+		
+		
+		JComboBox comboBox_2 = new JComboBox();
+		comboBox_2.setModel(new DefaultComboBoxModel(new String[] {"Economy", "Businese"}));
+		comboBox_2.setBounds(854, 488, 132, 22);
+		getContentPane().add(comboBox_2);
+		
+		textField_1 = new JTextField();
+		textField_1.setBounds(854, 545, 135, 20);
+		getContentPane().add(textField_1);
+		textField_1.setColumns(10);
+		JLabel label7 = new JLabel("");
+		label7.setFont(new Font("Tahoma", Font.BOLD, 24));
+		label7.setForeground(new Color(0, 0, 255));
+		label7.setBounds(272, 540, 175, 22);
+		getContentPane().add(label7);
+		
+		JSpinner spinner = new JSpinner();
+		spinner.addChangeListener(new ChangeListener() {
+			public void stateChanged(ChangeEvent e) {
+				int price = Integer.parseInt(textField_1.getText());
+				int qnt = Integer.parseInt(spinner.getValue().toString());
+				int tot = price*qnt;
+				label7.setText(String.valueOf(tot));
+				
+			}
+		});
+		spinner.setBounds(863, 592, 63, 20);
+		getContentPane().add(spinner);
+		JDateChooser dateChooser = new JDateChooser();
+		dateChooser.setBounds(962, 372, 117, 20);
+		getContentPane().add(dateChooser);
+		
+		
+		JButton btnNewButton = new JButton("BOOK");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String id = lblNewLabel_2_1.getText();
+				String idflight = label4.getText();
+				String idcus = textField.getText();
+				String class1 =comboBox_2.getSelectedItem().toString();
+				String price =label7.getText();
+				String seat =spinner.getValue().toString();
+				DateFormat da = new SimpleDateFormat("yyyy-MM-dd");
+				String date = da.format(dateChooser.getDate());
+
+				Connection con;
+				PreparedStatement pst;
+				try {
+					Class.forName("com.mysql.cj.jdbc.Driver");
+					con = DriverManager.getConnection("jdbc:mysql://localhost:3306/airline_ticket","root","asaad2001=");
+					pst =  con.prepareStatement("insert into ticket values(?,?,?,?,?,?,?)");
+					pst.setString(1, id);
+					pst.setString(2, idflight);
+					pst.setString(3, idcus);
+					pst.setString(4, class1);
+					pst.setString(5, price);
+					pst.setString(6, seat);
+					pst.setString(7, date);
+					pst.executeUpdate();
+					JOptionPane.showMessageDialog(null,"regesataion create");
+					
+					
+					
+				} catch (SQLException | ClassNotFoundException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
+				
+				
+			}
+		});
+		btnNewButton.setBounds(1060, 448, 89, 41);
+		getContentPane().add(btnNewButton);
+		
+		JButton btnCancel = new JButton("CANCEL");
+		btnCancel.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ticket.this.hide();
+			}
+		});
+		btnCancel.setBounds(1060, 514, 89, 41);
+		getContentPane().add(btnCancel);
+		
+		JButton btnNewButton_1 = new JButton("Search");
+		btnNewButton_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Connection con;
+				PreparedStatement pst;
+				String source=comboBox.getSelectedItem().toString().trim();
+				String departeur = comboBox_1.getSelectedItem().toString().trim();
+				try {
+					Class.forName("com.mysql.cj.jdbc.Driver");
+				} catch (ClassNotFoundException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				try {
+					con = DriverManager.getConnection("jdbc:mysql://localhost:3306/airline_ticket","root","asaad2001=");
+					pst =  con.prepareStatement("select * from flight where source=? and departeur=?");
+					pst.setString(1, source);
+					pst.setString(2, departeur);
+					ResultSet rs = pst.executeQuery();
+					ResultSetMetaData rsm = (ResultSetMetaData) rs.getMetaData();
+					int c;
+					c = rsm.getColumnCount();
+					DefaultTableModel fd = (DefaultTableModel)table.getModel();
+					fd.setRowCount(0);
+					while(rs.next()) {
+						Vector v2 = new Vector();
+						for(int i=1;i<=c;i++) {
+							v2.add(rs.getString("idflight"));
+							v2.add(rs.getString("flight name"));
+							v2.add(rs.getString("source"));
+							v2.add(rs.getString("departeur"));
+							v2.add(rs.getString("dep time"));
+							v2.add(rs.getString("arr time"));
+							v2.add(rs.getString("date"));
+							
+							v2.add(rs.getString("flight charge"));
+							
+						}
+						fd.addRow(v2);
+					}
+					
+					
+					
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			
+				
+			}
+		});
+		btnNewButton_1.setBounds(136, 161, 89, 23);
+		getContentPane().add(btnNewButton_1);
+		
+		JButton btnNewButton_2 = new JButton("Search");
+		btnNewButton_2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String id = textField.getText();
+				Connection con;
+				PreparedStatement pst;
+				
+				try {
+					Class.forName("com.mysql.cj.jdbc.Driver");
+					con = DriverManager.getConnection("jdbc:mysql://localhost:3306/airline_ticket","root","asaad2001=");
+					pst = con.prepareStatement("select * from customore where idcustomore=?");
+					pst.setString(1, id);
+					ResultSet rs = pst.executeQuery();
+					if(rs.next()== false) {
+						JOptionPane.showMessageDialog(null,"Record not finding");
+					}else {
+						String fname = rs.getString("first name");
+						String lname = rs.getString("last name");
+						String pasid = rs.getString("pasport ID");
+						label1.setText(fname);
+						label2.setText(lname);
+						label3.setText(pasid);
+					
+						
+					}
+					
+				} catch (SQLException | ClassNotFoundException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
+				
+				
+			
+				
+				
+				
+			}
+		});
+		btnNewButton_2.setBounds(990, 48, 89, 23);
+		getContentPane().add(btnNewButton_2);
+		
+		
+		
+
+	}
+}
