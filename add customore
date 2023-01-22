@@ -1,0 +1,281 @@
+package airline_ticke;
+import java.awt.Color;
+import java.awt.EventQueue;
+import java.awt.Font;
+import java.awt.Image;
+import java.beans.Statement;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.text.DateFormat;
+import java.text.FieldPosition;
+import java.text.ParsePosition;
+import java.text.SimpleDateFormat;
+
+import javax.imageio.ImageIO;
+import javax.swing.AbstractButton;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFileChooser;
+import javax.swing.JFrame;
+import javax.swing.JInternalFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JRadioButton;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
+import javax.swing.filechooser.FileNameExtensionFilter;
+
+import java.sql.*;
+
+import com.mysql.cj.xdevapi.PreparableStatement;
+import com.toedter.calendar.JDateChooser;
+import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.awt.event.ActionEvent;
+
+public class AddCustomore extends JInternalFrame {
+	private JTextField textField;
+	private JTextField textField_1;
+	private JTextField textField_2;
+	private JTextField textField_3;
+	private JTextField textField_4;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					AddCustomore frame = new AddCustomore();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+		
+	}
+
+	/**
+	 * Create the frame.
+	 */
+	
+
+
+
+	public AddCustomore() {
+		
+		
+		
+		
+		setBounds(0, 0, 1050, 567);
+		getContentPane().setLayout(null);
+		
+		
+		JLabel lblNewLabel_1 = new JLabel("New label");
+		lblNewLabel_1.setBounds(778, 242, 49, -56);
+		getContentPane().add(lblNewLabel_1);
+		
+		JLabel lstname = new JLabel("Last Name");
+		lstname.setFont(new Font("Nirmala UI", Font.BOLD, 14));
+		lstname.setBounds(47, 187, 81, 14);
+		getContentPane().add(lstname);
+		
+		JLabel nicno = new JLabel("Nic No");
+		nicno.setFont(new Font("Nirmala UI", Font.BOLD, 14));
+		nicno.setBounds(47, 242, 81, 14);
+		getContentPane().add(nicno);
+		
+		JLabel passid = new JLabel("Passport ID");
+		passid.setFont(new Font("Nirmala UI", Font.BOLD, 14));
+		passid.setBounds(47, 297, 81, 14);
+		getContentPane().add(passid);
+		
+		JLabel adresse = new JLabel("Adresse");
+		adresse.setFont(new Font("Nirmala UI", Font.BOLD, 14));
+		adresse.setBounds(47, 358, 81, 14);
+		getContentPane().add(adresse);
+		
+		textField = new JTextField();
+		textField.setBounds(183, 136, 133, 22);
+		getContentPane().add(textField);
+		textField.setColumns(10);
+		
+		textField_1 = new JTextField();
+		textField_1.setColumns(10);
+		textField_1.setBounds(183, 186, 133, 20);
+		getContentPane().add(textField_1);
+		
+		textField_2 = new JTextField();
+		textField_2.setColumns(10);
+		textField_2.setBounds(183, 242, 133, 20);
+		getContentPane().add(textField_2);
+		
+		textField_3 = new JTextField();
+		textField_3.setColumns(10);
+		textField_3.setBounds(183, 296, 133, 20);
+		getContentPane().add(textField_3);
+		
+		JTextArea textArea = new JTextArea();
+		textArea.setBounds(422, 433, -141, 22);
+		getContentPane().add(textArea);
+		
+		JTextArea textArea_1 = new JTextArea();
+		textArea_1.setBounds(163, 355, 173, 68);
+		getContentPane().add(textArea_1);
+		
+		JLabel lblNewLabel_2 = new JLabel("Customore ID");
+		lblNewLabel_2.setFont(new Font("Nirmala UI", Font.BOLD, 25));
+		lblNewLabel_2.setBounds(10, 37, 188, 34);
+		getContentPane().add(lblNewLabel_2);
+		
+		JLabel txtid = new JLabel("New label");
+		txtid.setForeground(new Color(64, 0, 64));
+		txtid.setBackground(new Color(255, 255, 255));
+		txtid.setFont(new Font("Nirmala UI", Font.BOLD, 20));
+		txtid.setBounds(290, 38, 140, 34);
+		getContentPane().add(txtid);
+		Connection con;
+		PreparableStatement pst;
+	try {
+		
+		Class.forName("com.mysql.cj.jdbc.Driver");
+		con = DriverManager.getConnection("jdbc:mysql://localhost:3306/airline_ticket","root","asaad2001=");
+		java.sql.Statement s = con.createStatement();
+		ResultSet rs =  s.executeQuery("select MAX(idcustomore) from customore");
+		rs.next();
+		rs.getString("MAX(idcustomore)");
+if(rs.getString("MAX(idcustomore)")== null) {
+			
+			txtid.setText("CS001");
+		}else {
+			long id = Long.parseLong(rs.getString("MAX(idcustomore)").substring(2,rs.getString("MAX(idcustomore)").length()));
+			id++;
+			txtid.setText("CS"+ String.format("%03d",id));
+		}
+
+} catch (ClassNotFoundException | SQLException e) {
+	// TODO Auto-generated catch block
+	e.printStackTrace();
+}
+		JLabel lblDateOfBirth = new JLabel("Date of birth");
+		lblDateOfBirth.setFont(new Font("Nirmala UI", Font.BOLD, 14));
+		lblDateOfBirth.setBounds(447, 187, 106, 14);
+		getContentPane().add(lblDateOfBirth);
+		
+		JLabel lblGender = new JLabel("Gender");
+		lblGender.setFont(new Font("Nirmala UI", Font.BOLD, 14));
+		lblGender.setBounds(447, 248, 81, 14);
+		getContentPane().add(lblGender);
+		
+		JDateChooser dateChooser = new JDateChooser();
+		dateChooser.setBounds(563, 187, 117, 20);
+		getContentPane().add(dateChooser);
+		
+		JRadioButton r1 = new JRadioButton("Male");
+		r1.setFont(new Font("Nirmala UI", Font.BOLD, 13));
+		r1.setBounds(534, 242, 69, 23);
+		getContentPane().add(r1);
+		
+		JRadioButton r2 = new JRadioButton("Female");
+		r2.setFont(new Font("Nirmala UI", Font.BOLD, 13));
+		r2.setBounds(605, 242, 81, 23);
+		getContentPane().add(r2);
+		
+		textField_4 = new JTextField();
+		textField_4.setBounds(563, 310, 133, 20);
+		getContentPane().add(textField_4);
+		textField_4.setColumns(10);
+		
+		JLabel lblContact = new JLabel("Contact");
+		lblContact.setFont(new Font("Nirmala UI", Font.BOLD, 14));
+		lblContact.setBounds(447, 311, 81, 14);
+		getContentPane().add(lblContact);
+		
+		JButton btnNewButton_1 = new JButton("ADD");
+		btnNewButton_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String id = txtid.getText();
+				String firstname = textField.getText();
+				String lastname =textField_1.getText();
+				String nicno = textField_2.getText();
+				String pssid = textField_3.getText();
+				String adresse = textArea_1.getText();
+				DateFormat da = new SimpleDateFormat("yyyy-MM-dd");
+				String date = da.format(dateChooser.getDate());
+				String Gender;
+				if(r1.isSelected()) {
+					Gender ="Male";
+				}else {
+					Gender="famele";
+				}
+				String contact = textField_4.getText();
+
+				Connection con;
+				PreparedStatement pst;
+				try {
+					Class.forName("com.mysql.cj.jdbc.Driver");
+					con = DriverManager.getConnection("jdbc:mysql://localhost:3306/airline_ticket","root","asaad2001=");
+					pst =  con.prepareStatement("insert into customore values(?,?,?,?,?,?,?,?,?)");
+					pst.setString(1, id);
+					pst.setString(2, firstname);
+					pst.setString(3, lastname);
+					pst.setString(4, nicno);
+					pst.setString(5, pssid);
+					pst.setString(6, adresse);
+					pst.setString(7, date);
+					pst.setString(8, Gender);
+					pst.setString(9, contact);
+					pst.executeUpdate();
+					JOptionPane.showMessageDialog(null,"regesataion create");
+					
+					
+					
+				} catch (SQLException | ClassNotFoundException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
+				
+				
+				
+			}});
+				
+		
+		btnNewButton_1.setFont(new Font("Nirmala UI", Font.BOLD, 13));
+		btnNewButton_1.setBounds(259, 479, 99, 55);
+		getContentPane().add(btnNewButton_1);
+		
+		JButton btnNewButton_1_1 = new JButton("CANCEL");
+		btnNewButton_1_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				AddCustomore.this.hide();
+			}
+		});
+		btnNewButton_1_1.setFont(new Font("Nirmala UI", Font.BOLD, 13));
+		btnNewButton_1_1.setBounds(447, 479, 106, 55);
+		getContentPane().add(btnNewButton_1_1);
+		
+		
+		JLabel frstname = new JLabel("First Name");
+		frstname.setFont(new Font("Nirmala UI", Font.BOLD, 14));
+		frstname.setBounds(47, 137, 81, 14);
+		getContentPane().add(frstname);
+		
+		JPanel panel = new JPanel();
+		panel.setBackground(new Color(64, 128, 128));
+		panel.setBounds(23, 104, 360, 364);
+		getContentPane().add(panel);
+		
+		JPanel panel_1 = new JPanel();
+		panel_1.setBackground(new Color(64, 128, 128));
+		panel_1.setBounds(393, 104, 343, 364);
+		getContentPane().add(panel_1);
+		
+	}
+}
