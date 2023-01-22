@@ -1,0 +1,110 @@
+package airline_ticke;
+
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JMenuBar;
+import javax.swing.JMenu;
+import javax.swing.JRadioButtonMenuItem;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import java.awt.Color;
+
+public class main {
+
+	private JFrame frame;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					main window = new main();
+					window.frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the application.
+	 */
+	public main() {
+		initialize();
+	}
+
+	/**
+	 * Initialize the contents of the frame.
+	 */
+	private void initialize() {
+		frame = new JFrame();
+		frame.getContentPane().setBackground(new Color(255, 255, 255));
+		frame.setBounds(0, 0, 1366, 768);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
+		JMenuBar menuBar = new JMenuBar();
+		frame.setJMenuBar(menuBar);
+		
+		JMenu mnNewMenu = new JMenu("Cotomore");
+		menuBar.add(mnNewMenu);
+		
+		JRadioButtonMenuItem rdbtnmntmNewRadioItem = new JRadioButtonMenuItem("Add Cotomore");
+		rdbtnmntmNewRadioItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				AddCustomore cus = new AddCustomore();
+				frame.getContentPane().add(cus);
+				cus.setVisible(true);
+			}
+		});
+		mnNewMenu.add(rdbtnmntmNewRadioItem);
+		
+		JRadioButtonMenuItem rdbtnmntmNewRadioItem_1 = new JRadioButtonMenuItem("Search Costomore");
+		rdbtnmntmNewRadioItem_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				searchCutomore secus = new searchCutomore();
+				frame.getContentPane().add(secus);
+				secus.setVisible(true);
+			}
+		});
+		mnNewMenu.add(rdbtnmntmNewRadioItem_1);
+		
+		JMenu mnNewMenu_1 = new JMenu("Ticket");
+		menuBar.add(mnNewMenu_1);
+		
+		JRadioButtonMenuItem rdbtnmntmNewRadioItem_2 = new JRadioButtonMenuItem("Book Ticket");
+		rdbtnmntmNewRadioItem_2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ticket tick = new ticket();
+				frame.getContentPane().add(tick);
+				tick.setVisible(true);
+			}
+		});
+		
+		
+		mnNewMenu_1.add(rdbtnmntmNewRadioItem_2);
+		
+		JMenu mnNewMenu_2 = new JMenu("Flight");
+		menuBar.add(mnNewMenu_2);
+		
+		JRadioButtonMenuItem rdbtnmntmNewRadioItem_3 = new JRadioButtonMenuItem("Add Flight");
+		rdbtnmntmNewRadioItem_3.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				addflight add1 = new addflight();
+				frame.getContentPane().add(add1);
+				add1.setVisible(true);
+			}
+		});
+		mnNewMenu_2.add(rdbtnmntmNewRadioItem_3);
+		
+		JMenu mnNewMenu_3 = new JMenu("User");
+		menuBar.add(mnNewMenu_3);
+		
+		JRadioButtonMenuItem rdbtnmntmNewRadioItem_4 = new JRadioButtonMenuItem("Create User");
+		mnNewMenu_3.add(rdbtnmntmNewRadioItem_4);
+		frame.getContentPane().setLayout(null);
+	}
+}
